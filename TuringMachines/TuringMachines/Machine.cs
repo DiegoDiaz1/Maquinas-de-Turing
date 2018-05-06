@@ -13,6 +13,8 @@ namespace TuringMachines
         string inicialState;
         char blank = 'b';
         bool endState;
+        string lastState;
+        string currentState;
         Dictionary<string, string> movimientos = new Dictionary<string, string>();
 
         public Machine(char[] strCinta,char[] alfabeto,string inicial) {
@@ -30,6 +32,18 @@ namespace TuringMachines
 
         public string momement(string llave) {
             return movimientos[llave];
+        }
+
+        private bool itsEnd(string cadena) {
+            string[] str = cadena.Split(',');
+            if (str[0] == lastState)
+            {
+                endState = true;
+                return endState;
+            }
+
+            endState = false;
+            return endState;
         }
     }
 }
