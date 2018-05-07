@@ -16,19 +16,25 @@ namespace TuringMachines
 
         string cadena;
         char[] subStrings;
+        bool flag = false;
+        Machine multiplicacion;
+        Machine sumatoria;
+        Machine resta;
+        Machine palindromo;
+        Machine copiaSTR;
 
         public void createMachines(){
+
             //Alfabeto y simbolos posibles de la cinta de las mquinas de Turing
             string cinta = "10BXY*=+-abc";
             string alphabet = "10*=+-abc";
 
-
-
-            Machine multiplicacion = new Machine(cinta.ToCharArray(), alphabet.ToCharArray(), "q0");
-            Machine sumatoria = new Machine(cinta.ToCharArray(), alphabet.ToCharArray(), "q0");
-            Machine resta = new Machine(cinta.ToCharArray(), alphabet.ToCharArray(), "q0");
-            Machine palindromo = new Machine(cinta.ToCharArray(), alphabet.ToCharArray(), "q0");
-            Machine copiaSTR = new Machine(cinta.ToCharArray(), alphabet.ToCharArray(), "q0");
+            //Inicializacion de las Maquinas de Turing
+            multiplicacion = new Machine(cinta.ToCharArray(), alphabet.ToCharArray(), "q0","q7");
+            sumatoria = new Machine(cinta.ToCharArray(), alphabet.ToCharArray(), "q0","q3");
+            resta = new Machine(cinta.ToCharArray(), alphabet.ToCharArray(), "q0","q13");
+            palindromo = new Machine(cinta.ToCharArray(), alphabet.ToCharArray(), "q0","q10");
+            copiaSTR = new Machine(cinta.ToCharArray(), alphabet.ToCharArray(), "q0","");
 
             //////////////////////////////////////////////////
             ////// SE DECLARAN LOS ESTADOS DE LA MAQUINA /////
@@ -36,21 +42,23 @@ namespace TuringMachines
             //////            MULTIPLICACION             /////
             //////////////////////////////////////////////////
 
-            multiplicacion.addState("q0,0", "q6,B,1");
-            multiplicacion.addState("q0,1", "q1,B,1");
+            multiplicacion.addState("q0,*", "q6,b,1");
+            multiplicacion.addState("q0,1", "q1,b,1");
             multiplicacion.addState("q1,*", "q2,*,1");
-            multiplicacion.addState("q2,0", "q5,0,-1");
+            multiplicacion.addState("q2,*", "q5,*,-1");
+            multiplicacion.addState("q2,=", "q5,=,-1");
             multiplicacion.addState("q2,1", "q3,Y,1");
             multiplicacion.addState("q3,=", "q3,=,1");
             multiplicacion.addState("q3,1", "q3,1,1");
-            multiplicacion.addState("q3,B", "q4,1,-1");
+            multiplicacion.addState("q3,b", "q4,1,-1");
             multiplicacion.addState("q4,=", "q4,=,-1");
             multiplicacion.addState("q4,*", "q4,*,-1");
             multiplicacion.addState("q4,1", "q4,1,-1");
             multiplicacion.addState("q4,Y", "q2,Y,1");
-            multiplicacion.addState("q5,Y", "q5,Y,-1");
-            multiplicacion.addState("q5,B", "q0,B,1");
-            multiplicacion.addState("q6,0", "q7,b,1");
+            multiplicacion.addState("q5,Y", "q5,1,-1");
+            multiplicacion.addState("q5,*","q5,*,-1");
+            multiplicacion.addState("q5,b", "q0,b,1");
+            multiplicacion.addState("q6,=", "q7,=,1");
             multiplicacion.addState("q6,1", "q6,b,1");
 
 
@@ -72,9 +80,6 @@ namespace TuringMachines
             sumatoria.addState("q2,+", "q2,+,-1");
             sumatoria.addState("q2,1", "q2,1,-1");
             sumatoria.addState("q2,X", "q0,X,1");
-
-
-
 
 
 
@@ -161,6 +166,10 @@ namespace TuringMachines
             palindromo.addState("q9,C", "q9,c,-1");
             palindromo.addState("q9,b", "q0,b,1");
 
+
+
+            //FALATA COPIA DE TEXTO
+
         }
 
         public Form1()
@@ -200,7 +209,30 @@ namespace TuringMachines
 
         private void button2_Click(object sender, EventArgs e)
         {
-
+            string[] temp;
+            int i = 0;
+            while (!flag)
+            {
+                if (multiplicacion.momement(multiplicacion.getCurrent() + ","+this.dataGridView1.Rows[0].Cells[i].Value) != null)
+                {
+                    temp = multiplicacion.momement(multiplicacion.getCurrent() +"," + this.dataGridView1.Rows[0].Cells[i].Value).Split(',');
+                    this.dataGridView1.Rows[0].Cells[i].Value = temp[1];
+                    multiplicacion.setCurrent(temp[0]);
+                    if (temp[2] == "1")
+                        i++;
+                    else
+                        i--;
+                    if (multiplicacion.itsEnd(multiplicacion.getCurrent()))
+                    {
+                        flag = true;
+                        i = 0;
+                    }
+                }
+                else
+                {
+                    //Create exection.
+                }
+            }
         }
     }
 }

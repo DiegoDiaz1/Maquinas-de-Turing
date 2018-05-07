@@ -17,11 +17,13 @@ namespace TuringMachines
         string currentState;
         Dictionary<string, string> movimientos = new Dictionary<string, string>();
 
-        public Machine(char[] strCinta,char[] alfabeto,string inicial) {
+        public Machine(char[] strCinta,char[] alfabeto,string inicial,string endST) {
 
             cinta = strCinta;
             dictionary = alfabeto;
             inicialState = inicial;
+            currentState = "q0";
+            lastState = endST;
             endState = false;
         }
 
@@ -31,10 +33,20 @@ namespace TuringMachines
         }
 
         public string momement(string llave) {
+
             return movimientos[llave];
         }
 
-        private bool itsEnd(string cadena) {
+        public void setCurrent(string newCurrent) {
+            currentState = newCurrent;
+        }
+
+        public string getCurrent()
+        {
+            return currentState;
+        }
+
+        public bool itsEnd(string cadena) {
             string[] str = cadena.Split(',');
             if (str[0] == lastState)
             {
