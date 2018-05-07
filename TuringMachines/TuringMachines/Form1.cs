@@ -16,6 +16,8 @@ namespace TuringMachines
 
         string cadena;
         char[] subStrings;
+        int cont = 0;
+        string estado = "";
         bool flag = false;
         Machine multiplicacion;
         Machine sumatoria;
@@ -45,6 +47,7 @@ namespace TuringMachines
             multiplicacion.addState("q0,*", "q6,b,1");
             multiplicacion.addState("q0,1", "q1,b,1");
             multiplicacion.addState("q1,*", "q2,*,1");
+            multiplicacion.addState("q1,1", "q1,1,1");
             multiplicacion.addState("q2,*", "q5,*,-1");
             multiplicacion.addState("q2,=", "q5,=,-1");
             multiplicacion.addState("q2,1", "q3,Y,1");
@@ -57,6 +60,7 @@ namespace TuringMachines
             multiplicacion.addState("q4,Y", "q2,Y,1");
             multiplicacion.addState("q5,Y", "q5,1,-1");
             multiplicacion.addState("q5,*","q5,*,-1");
+            multiplicacion.addState("q5,1", "q5,1,-1");
             multiplicacion.addState("q5,b", "q0,b,1");
             multiplicacion.addState("q6,=", "q7,=,1");
             multiplicacion.addState("q6,1", "q6,b,1");
@@ -70,12 +74,12 @@ namespace TuringMachines
             //////////////////////////////////////////////////
 
             sumatoria.addState("q0,+", "q0,X,1");
-            sumatoria.addState("q0,=", "q0,=,1");
+            sumatoria.addState("q0,=", "q3,=,1");
             sumatoria.addState("q0,1", "q1,X,1");
             sumatoria.addState("q1,=", "q1,=,1");
             sumatoria.addState("q1,+", "q1,+,1");
             sumatoria.addState("q1,1", "q1,1,1");
-            sumatoria.addState("q1,B", "q2,1,-1");
+            sumatoria.addState("q1,b", "q2,1,-1");
             sumatoria.addState("q2,=", "q2,=,-1");
             sumatoria.addState("q2,+", "q2,+,-1");
             sumatoria.addState("q2,1", "q2,1,-1");
@@ -113,6 +117,7 @@ namespace TuringMachines
             resta.addState("q8,b", "q9,1,-1");
             resta.addState("q9,1", "q9,1,-1");
             resta.addState("q9,=", "q9,=,-1");
+            resta.addState("q9,-", "q9,-,-1");
             resta.addState("q9,Y", "q10,Y,1");
             resta.addState("q10,=", "q13,=,1");
             resta.addState("q10,1", "q11,Y,1");
@@ -123,7 +128,7 @@ namespace TuringMachines
             resta.addState("q12,-", "q12,-,-1");
             resta.addState("q12,=", "q12,=,-1");
             resta.addState("q12,1", "q12,1,-1");
-            resta.addState("q12,Y", "q12,Y,1");
+            resta.addState("q12,Y", "q10,Y,1");
 
 
             //////////////////////////////////////////////////
@@ -186,52 +191,185 @@ namespace TuringMachines
             createMachines();
 
         }
-
+        //Solo Llena el Data Grid View
         private void button1_Click(object sender, EventArgs e)
         {
             cadena = textBox1.Text;
             subStrings = cadena.ToCharArray();
 
-            for (int i = 0; i <= cadena.Length + 1; i++)
+            label2.Text = "__";
+            label4.Text = "__";
+            if (radioButton3.Checked)
             {
-                if ((i == cadena.Length) || (i == cadena.Length + 1))
+                for (int i = 0; i <= cadena.Length + 1; i++)
                 {
-                    this.dataGridView1.Columns.Add("blank" + i, "b");
-                    this.dataGridView1.Rows[0].Cells[i].Value = "b";
-                }
-                else
-                {
-                    this.dataGridView1.Columns.Add("string" + i, subStrings[i].ToString());
-                    this.dataGridView1.Rows[0].Cells[i].Value = subStrings[i].ToString();
+                    if ((i == cadena.Length) || (i == cadena.Length + 1))
+                    {
+                        int cons = cadena.Length;
+                        while (cons <= cadena.Length * 7)
+                        {
+                            this.dataGridView1.Columns.Add("blank" + cons, "b");
+                            this.dataGridView1.Rows[0].Cells[cons].Value = "b";
+                            cons++;
+                        }
+                    }
+                    else
+                    {
+                        this.dataGridView1.Columns.Add("string" + i, subStrings[i].ToString());
+                        this.dataGridView1.Rows[0].Cells[i].Value = subStrings[i].ToString();
+                    }
                 }
             }
+            if((radioButton1.Checked)||(radioButton2.Checked)||(radioButton4.Checked)||(radioButton5.Checked))
+            {
+                for (int i = 0; i <= cadena.Length + 1; i++)
+                {
+                    if ((i == cadena.Length) || (i == cadena.Length + 1))
+                    {
+                        int cons = cadena.Length;
+                        while (cons <= cadena.Length * 2)
+                        {
+                            this.dataGridView1.Columns.Add("blank" + cons, "b");
+                            this.dataGridView1.Rows[0].Cells[cons].Value = "b";
+                            cons++;
+                        }
+                    }
+                    else
+                    {
+                        this.dataGridView1.Columns.Add("string" + i, subStrings[i].ToString());
+                        this.dataGridView1.Rows[0].Cells[i].Value = subStrings[i].ToString();
+                    }
+                }
+            }
+            else
+            {
+                MessageBox.Show("Seleccione una maquina de turing");
+            }
         }
+            
 
         private void button2_Click(object sender, EventArgs e)
         {
             string[] temp;
             int i = 0;
-            while (!flag)
+
+            flag = false;
+            //Agregar demas Mauinas
+            if (radioButton1.Checked)
             {
-                if (multiplicacion.momement(multiplicacion.getCurrent() + ","+this.dataGridView1.Rows[0].Cells[i].Value) != null)
+                while (!flag)
                 {
-                    temp = multiplicacion.momement(multiplicacion.getCurrent() +"," + this.dataGridView1.Rows[0].Cells[i].Value).Split(',');
-                    this.dataGridView1.Rows[0].Cells[i].Value = temp[1];
-                    multiplicacion.setCurrent(temp[0]);
-                    if (temp[2] == "1")
-                        i++;
-                    else
-                        i--;
-                    if (multiplicacion.itsEnd(multiplicacion.getCurrent()))
+                    if (sumatoria.momement(sumatoria.getCurrent() + "," + this.dataGridView1.Rows[0].Cells[i].Value) != null)
                     {
+                        temp = sumatoria.momement(sumatoria.getCurrent() + "," + this.dataGridView1.Rows[0].Cells[i].Value).Split(',');
+                        sumatoria.setCurrent(temp[0]);
+                        //Agregar Color a la Cabezilla de la maquina
+
+                        //Se Manejan los indicadores visuales de pasos y Estado actual.
+                        cont++;
+                        label4.Text = cont.ToString();
+                        estado = sumatoria.getCurrent();
+                        label2.Text = estado;
+
+                        //Se Cambia el dato en dataGridView
+                        this.dataGridView1.Rows[0].Cells[i].Value = temp[1];
+
+                        if (temp[2] == "1")
+                            i++;
+                        else
+                            i--;
+                        if (sumatoria.itsEnd(sumatoria.getCurrent()))
+                        {
+                            flag = true;
+                            i = 0;
+                        }
+                    }
+                    else
+                    {
+                        MessageBox.Show("ERROR: Estado no definido revise el formato de entrada.");
                         flag = true;
-                        i = 0;
                     }
                 }
-                else
+            }
+            if (radioButton2.Checked)
+            {
+                while (!flag)
                 {
-                    //Create exection.
+                    if (resta.momement(resta.getCurrent() + "," + this.dataGridView1.Rows[0].Cells[i].Value) != null)
+                    {
+                        temp = resta.momement(resta.getCurrent() + "," + this.dataGridView1.Rows[0].Cells[i].Value).Split(',');
+                        resta.setCurrent(temp[0]);
+                        //Agregar Color a la Cabezilla de la maquina
+
+                        //Se Manejan los indicadores visuales de pasos y Estado actual.
+                        cont++;
+                        label4.Text = cont.ToString();
+                        estado = resta.getCurrent();
+                        label2.Text = estado;
+
+                        //Se Cambia el dato en dataGridView
+                        this.dataGridView1.Rows[0].Cells[i].Value = temp[1];
+
+                        if (temp[2] == "1")
+                            i++;
+                        else
+                            i--;
+                        if (resta.itsEnd(resta.getCurrent()))
+                        {
+                            flag = true;
+                            i = 0;
+                        }
+                    }
+                    else
+                    {
+                        MessageBox.Show("ERROR: Estado no definido revise el formato de entrada.");
+                        flag = true;
+                    }
                 }
+            }
+            if (radioButton3.Checked)
+            {
+                while (!flag)
+                {
+                    if (multiplicacion.momement(multiplicacion.getCurrent() + "," + this.dataGridView1.Rows[0].Cells[i].Value) != null)
+                    {
+                        temp = multiplicacion.momement(multiplicacion.getCurrent() + "," + this.dataGridView1.Rows[0].Cells[i].Value).Split(',');
+                        multiplicacion.setCurrent(temp[0]);
+                        //Agregar Color a la Cabezilla de la maquina
+
+                        //Se Manejan los indicadores visuales de pasos y Estado actual.
+                        cont++;
+                        label4.Text = cont.ToString();
+                        estado = multiplicacion.getCurrent();
+                        label2.Text = estado;
+
+                        //Se Cambia el dato en dataGridView
+                        this.dataGridView1.Rows[0].Cells[i].Value = temp[1];
+
+                        if (temp[2] == "1")
+                            i++;
+                        else
+                            i--;
+                        if (multiplicacion.itsEnd(multiplicacion.getCurrent()))
+                        {
+                            flag = true;
+                            i = 0;
+                        }
+                    }
+                    else
+                    {
+                        MessageBox.Show("ERROR: Estado no definido revise el formato de entrada.");
+                        flag = true;
+                    }
+                }
+            }
+            if (radioButton4.Checked)
+            {
+
+            }
+            if (radioButton5.Checked)
+            {
+
             }
         }
     }

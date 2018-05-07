@@ -33,8 +33,16 @@ namespace TuringMachines
         }
 
         public string momement(string llave) {
+            try
+            {
+                return movimientos[llave];
+            }
+            catch (Exception)
+            {
+                return null;
+                throw;
+            }
 
-            return movimientos[llave];
         }
 
         public void setCurrent(string newCurrent) {
