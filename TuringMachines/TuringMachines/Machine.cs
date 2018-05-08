@@ -11,7 +11,7 @@ namespace TuringMachines
         char[] cinta;
         char[] dictionary;
         string inicialState;
-        char blank = 'b';
+        public char blank = '»';
         bool endState;
         string lastState;
         string currentState;
