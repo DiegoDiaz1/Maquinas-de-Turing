@@ -568,6 +568,8 @@ namespace TuringMachines
             }
         }
 
+        string[] temp1;
+        int ij = 0;
 
         //Boton para resetear el grid
         private void button3_Click(object sender, EventArgs e)
@@ -581,10 +583,11 @@ namespace TuringMachines
             }
             dataGridView1.Rows[0].Cells[0].Value = "";
             flag = false;
+            ij = 0;
+            i = 0;
         }
 
-        string[] temp1;
-        int ij = 0;
+      
 
         private void timer1_Tick(object sender, EventArgs e)
         {
@@ -633,14 +636,14 @@ namespace TuringMachines
 
             if (radioButton2.Checked)
             {
-                if (resta.momement(resta.getCurrent() + "," + this.dataGridView1.Rows[0].Cells[i].Value) != null)
+                if (resta.momement(resta.getCurrent() + "," + this.dataGridView1.Rows[0].Cells[ij].Value) != null)
                 {
-                    temp = resta.momement(resta.getCurrent() + "," + this.dataGridView1.Rows[0].Cells[i].Value).Split(',');
-                    resta.setCurrent(temp[0]);
+                    temp1 = resta.momement(resta.getCurrent() + "," + this.dataGridView1.Rows[0].Cells[ij].Value).Split(',');
+                    resta.setCurrent(temp1[0]);
 
 
                     //Agrega Color a la Cabezilla de la maquina
-                    dataGridView1.CurrentCell = dataGridView1.Rows[0].Cells[i];
+                    dataGridView1.CurrentCell = dataGridView1.Rows[0].Cells[ij];
                     dataGridView1.CurrentCell.Style.BackColor = Color.Tomato;
 
                     //Se Manejan los indicadores visuales de pasos y Estado actual.
@@ -649,16 +652,16 @@ namespace TuringMachines
                     estado = resta.getCurrent();
                     label2.Text = estado;
                     //Se Cambia el dato en dataGridView
-                    this.dataGridView1.Rows[0].Cells[i].Value = temp[1];
+                    this.dataGridView1.Rows[0].Cells[ij].Value = temp1[1];
 
-                    if (temp[2] == "1")
-                        i++;
+                    if (temp1[2] == "1")
+                        ij++;
                     else
-                        i--;
+                        ij--;
                     if (resta.itsEnd(resta.getCurrent()))
                     {
                         
-                        i = 0;
+                        ij = 0;
                         resta.setCurrent("q0");
                         cont = 0;
                         timer1.Enabled = false;
@@ -676,14 +679,14 @@ namespace TuringMachines
 
             if (radioButton3.Checked)
             {
-                if (multiplicacion.momement(multiplicacion.getCurrent() + "," + this.dataGridView1.Rows[0].Cells[i].Value) != null)
+                if (multiplicacion.momement(multiplicacion.getCurrent() + "," + this.dataGridView1.Rows[0].Cells[ij].Value) != null)
                 {
-                    temp = multiplicacion.momement(multiplicacion.getCurrent() + "," + this.dataGridView1.Rows[0].Cells[i].Value).Split(',');
-                    multiplicacion.setCurrent(temp[0]);
+                    temp1 = multiplicacion.momement(multiplicacion.getCurrent() + "," + this.dataGridView1.Rows[0].Cells[ij].Value).Split(',');
+                    multiplicacion.setCurrent(temp1[0]);
 
 
                     //Agrega Color a la Cabezilla de la maquina
-                    dataGridView1.CurrentCell = dataGridView1.Rows[0].Cells[i];
+                    dataGridView1.CurrentCell = dataGridView1.Rows[0].Cells[ij];
                     dataGridView1.CurrentCell.Style.BackColor = Color.Tomato;
 
                     //Se Manejan los indicadores visuales de pasos y Estado actual.
@@ -692,16 +695,16 @@ namespace TuringMachines
                     estado = multiplicacion.getCurrent();
                     label2.Text = estado;
                     //Se Cambia el dato en dataGridView
-                    this.dataGridView1.Rows[0].Cells[i].Value = temp[1];
+                    this.dataGridView1.Rows[0].Cells[ij].Value = temp1[1];
 
-                    if (temp[2] == "1")
-                        i++;
+                    if (temp1[2] == "1")
+                        ij++;
                     else
-                        i--;
+                        ij--;
                     if (multiplicacion.itsEnd(multiplicacion.getCurrent()))
                     {
 
-                        i = 0;
+                        ij = 0;
                         multiplicacion.setCurrent("q0");
                         cont = 0;
                         timer1.Enabled = false;
@@ -719,14 +722,14 @@ namespace TuringMachines
 
             if (radioButton4.Checked)
             {
-                if (palindromo.momement(palindromo.getCurrent() + "," + this.dataGridView1.Rows[0].Cells[i].Value) != null)
+                if (palindromo.momement(palindromo.getCurrent() + "," + this.dataGridView1.Rows[0].Cells[ij].Value) != null)
                 {
-                    temp = palindromo.momement(palindromo.getCurrent() + "," + this.dataGridView1.Rows[0].Cells[i].Value).Split(',');
-                    palindromo.setCurrent(temp[0]);
+                    temp1 = palindromo.momement(palindromo.getCurrent() + "," + this.dataGridView1.Rows[0].Cells[ij].Value).Split(',');
+                    palindromo.setCurrent(temp1[0]);
 
 
                     //Agrega Color a la Cabezilla de la maquina
-                    dataGridView1.CurrentCell = dataGridView1.Rows[0].Cells[i];
+                    dataGridView1.CurrentCell = dataGridView1.Rows[0].Cells[ij];
                     dataGridView1.CurrentCell.Style.BackColor = Color.Tomato;
 
                     //Se Manejan los indicadores visuales de pasos y Estado actual.
@@ -735,16 +738,16 @@ namespace TuringMachines
                     estado = palindromo.getCurrent();
                     label2.Text = estado;
                     //Se Cambia el dato en dataGridView
-                    this.dataGridView1.Rows[0].Cells[i].Value = temp[1];
+                    this.dataGridView1.Rows[0].Cells[ij].Value = temp1[1];
 
-                    if (temp[2] == "1")
-                        i++;
+                    if (temp1[2] == "1")
+                        ij++;
                     else
-                        i--;
+                        ij--;
                     if (palindromo.itsEnd(palindromo.getCurrent()))
                     {
 
-                        i = 0;
+                        ij = 0;
                         palindromo.setCurrent("q0");
                         cont = 0;
                         timer1.Enabled = false;
@@ -761,14 +764,14 @@ namespace TuringMachines
 
             if (radioButton5.Checked)
             {
-                if (copiaSTR.momement(copiaSTR.getCurrent() + "," + this.dataGridView1.Rows[0].Cells[i].Value) != null)
+                if (copiaSTR.momement(copiaSTR.getCurrent() + "," + this.dataGridView1.Rows[0].Cells[ij].Value) != null)
                 {
-                    temp = copiaSTR.momement(copiaSTR.getCurrent() + "," + this.dataGridView1.Rows[0].Cells[i].Value).Split(',');
-                    copiaSTR.setCurrent(temp[0]);
+                    temp1 = copiaSTR.momement(copiaSTR.getCurrent() + "," + this.dataGridView1.Rows[0].Cells[ij].Value).Split(',');
+                    copiaSTR.setCurrent(temp1[0]);
 
 
                     //Agrega Color a la Cabezilla de la maquina
-                    dataGridView1.CurrentCell = dataGridView1.Rows[0].Cells[i];
+                    dataGridView1.CurrentCell = dataGridView1.Rows[0].Cells[ij];
                     dataGridView1.CurrentCell.Style.BackColor = Color.Tomato;
 
                     //Se Manejan los indicadores visuales de pasos y Estado actual.
@@ -777,16 +780,16 @@ namespace TuringMachines
                     estado = copiaSTR.getCurrent();
                     label2.Text = estado;
                     //Se Cambia el dato en dataGridView
-                    this.dataGridView1.Rows[0].Cells[i].Value = temp[1];
+                    this.dataGridView1.Rows[0].Cells[ij].Value = temp1[1];
 
-                    if (temp[2] == "1")
-                        i++;
+                    if (temp1[2] == "1")
+                        ij++;
                     else
-                        i--;
+                        ij--;
                     if (copiaSTR.itsEnd(copiaSTR.getCurrent()))
                     {
 
-                        i = 0;
+                        ij = 0;
                         copiaSTR.setCurrent("q0");
                         cont = 0;
                         timer1.Enabled = false;
