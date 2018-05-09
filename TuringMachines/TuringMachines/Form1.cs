@@ -141,6 +141,7 @@ namespace TuringMachines
             palindromo.addState("q0,a", "q1,»,1");
             palindromo.addState("q0,b", "q4,»,1");
             palindromo.addState("q0,c", "q7,»,1");
+            palindromo.addState("q0,»", "q10,»,1");
             palindromo.addState("q1,a", "q1,a,1");
             palindromo.addState("q1,b", "q1,b,1");
             palindromo.addState("q1,c", "q1,c,1");
@@ -316,17 +317,18 @@ namespace TuringMachines
                 MessageBox.Show("Seleccione una maquina de turing");
             }
         }
-            
+
+        string[] temp;
+        int i = 0;
 
         private void button2_Click(object sender, EventArgs e)
         {
-            string[] temp;
-            int i = 0;
+
 
             flag = false;
 
-              /////////////////////////////////
-             ////Instrucciones Sumatoria//////
+            /////////////////////////////////
+            ////Instrucciones Sumatoria//////
             /////////////////////////////////
 
             if (radioButton1.Checked)
@@ -337,19 +339,20 @@ namespace TuringMachines
                     {
                         temp = sumatoria.momement(sumatoria.getCurrent() + "," + this.dataGridView1.Rows[0].Cells[i].Value).Split(',');
                         sumatoria.setCurrent(temp[0]);
-                        //Agregar Color a la Cabezilla de la maquina
-                        //Thread.Sleep(250);
+
+
+                        //Agrega Color a la Cabezilla de la maquina
                         dataGridView1.CurrentCell = dataGridView1.Rows[0].Cells[i];
-                        dataGridView1.Rows[0].Cells[i].Style.BackColor = Color.AliceBlue;
+                        dataGridView1.CurrentCell.Style.BackColor = Color.Tomato;
+
                         //Se Manejan los indicadores visuales de pasos y Estado actual.
                         cont++;
                         label4.Text = cont.ToString();
                         estado = sumatoria.getCurrent();
                         label2.Text = estado;
-                        
                         //Se Cambia el dato en dataGridView
                         this.dataGridView1.Rows[0].Cells[i].Value = temp[1];
-                        Thread.Sleep(250);
+
                         if (temp[2] == "1")
                             i++;
                         else
@@ -358,18 +361,21 @@ namespace TuringMachines
                         {
                             flag = true;
                             i = 0;
+                            sumatoria.setCurrent("q0");
+                            cont = 0;
                         }
                     }
                     else
                     {
                         MessageBox.Show("ERROR: Estado no definido revise el formato de entrada.");
                         flag = true;
+                        sumatoria.setCurrent("q0");
                     }
                 }
             }
 
-              ////////////////////////////////
-             /////Instrucciones Resta////////
+            ////////////////////////////////
+            /////Instrucciones Resta////////
             ////////////////////////////////
 
             if (radioButton2.Checked)
@@ -381,6 +387,9 @@ namespace TuringMachines
                         temp = resta.momement(resta.getCurrent() + "," + this.dataGridView1.Rows[0].Cells[i].Value).Split(',');
                         resta.setCurrent(temp[0]);
                         //Agregar Color a la Cabezilla de la maquina
+
+                        dataGridView1.CurrentCell = dataGridView1.Rows[0].Cells[i];
+                        dataGridView1.CurrentCell.Style.BackColor = Color.Tomato;
 
                         //Se Manejan los indicadores visuales de pasos y Estado actual.
                         cont++;
@@ -399,19 +408,22 @@ namespace TuringMachines
                         {
                             flag = true;
                             i = 0;
+                            resta.setCurrent("q0");
+                            cont = 0;
                         }
                     }
                     else
                     {
                         MessageBox.Show("ERROR: Estado no definido revise el formato de entrada.");
                         flag = true;
+                        resta.setCurrent("q0");
                     }
                 }
             }
 
-             ////////////////////////////////////
+            ////////////////////////////////////
             /////Instrucciones Multiplicacion///
-           ////////////////////////////////////
+            ////////////////////////////////////
 
             if (radioButton3.Checked)
             {
@@ -422,6 +434,9 @@ namespace TuringMachines
                         temp = multiplicacion.momement(multiplicacion.getCurrent() + "," + this.dataGridView1.Rows[0].Cells[i].Value).Split(',');
                         multiplicacion.setCurrent(temp[0]);
                         //Agregar Color a la Cabezilla de la maquina
+
+                        dataGridView1.CurrentCell = dataGridView1.Rows[0].Cells[i];
+                        dataGridView1.CurrentCell.Style.BackColor = Color.Tomato;
 
                         //Se Manejan los indicadores visuales de pasos y Estado actual.
                         cont++;
@@ -440,18 +455,22 @@ namespace TuringMachines
                         {
                             flag = true;
                             i = 0;
+                            multiplicacion.setCurrent("q0");
+                            cont = 0;
                         }
                     }
                     else
                     {
                         MessageBox.Show("ERROR: Estado no definido revise el formato de entrada.");
                         flag = true;
+                        multiplicacion.setCurrent("q0");
+                        cont = 0;
                     }
                 }
             }
 
-              /////////////////////////////////
-             /////Instrucciones Palindromo////
+            /////////////////////////////////
+            /////Instrucciones Palindromo////
             /////////////////////////////////
 
             if (radioButton4.Checked)
@@ -463,6 +482,9 @@ namespace TuringMachines
                         temp = palindromo.momement(palindromo.getCurrent() + "," + this.dataGridView1.Rows[0].Cells[i].Value).Split(',');
                         palindromo.setCurrent(temp[0]);
                         //Agregar Color a la Cabezilla de la maquina
+
+                        dataGridView1.CurrentCell = dataGridView1.Rows[0].Cells[i];
+                        dataGridView1.CurrentCell.Style.BackColor = Color.Tomato;
 
                         //Se Manejan los indicadores visuales de pasos y Estado actual.
                         cont++;
@@ -482,18 +504,22 @@ namespace TuringMachines
                             flag = true;
                             i = 0;
                             MessageBox.Show("Es Palindromo");
+                            palindromo.setCurrent("q0");
+                            cont = 0;
                         }
                     }
                     else
                     {
                         MessageBox.Show("No Es palindromo");
                         flag = true;
+                        cont = 0;
+                        palindromo.setCurrent("q0");
                     }
                 }
             }
 
-              //////////////////////////////////////
-             /////Instrucciones Copia De Texto/////
+            //////////////////////////////////////
+            /////Instrucciones Copia De Texto/////
             //////////////////////////////////////
 
             if (radioButton5.Checked)
@@ -505,6 +531,10 @@ namespace TuringMachines
                         temp = copiaSTR.momement(copiaSTR.getCurrent() + "," + this.dataGridView1.Rows[0].Cells[i].Value).Split(',');
                         copiaSTR.setCurrent(temp[0]);
                         //Agregar Color a la Cabezilla de la maquina
+
+
+                        dataGridView1.CurrentCell = dataGridView1.Rows[0].Cells[i];
+                        dataGridView1.CurrentCell.Style.BackColor = Color.Tomato;
 
                         //Se Manejan los indicadores visuales de pasos y Estado actual.
                         cont++;
@@ -523,12 +553,16 @@ namespace TuringMachines
                         {
                             flag = true;
                             i = 0;
+                            copiaSTR.setCurrent("q0");
+                            cont = 0;
                         }
                     }
                     else
                     {
                         MessageBox.Show("ERROR: Estado no definido revise el formato de entrada.");
                         flag = true;
+                        copiaSTR.setCurrent("q0");
+                        cont = 0;
                     }
                 }
             }
@@ -547,6 +581,230 @@ namespace TuringMachines
             }
             dataGridView1.Rows[0].Cells[0].Value = "";
             flag = false;
+        }
+
+        string[] temp1;
+        int ij = 0;
+
+        private void timer1_Tick(object sender, EventArgs e)
+        {
+
+            if (radioButton1.Checked)
+            {
+                if (sumatoria.momement(sumatoria.getCurrent() + "," + this.dataGridView1.Rows[0].Cells[ij].Value) != null)
+                {
+                    temp1 = sumatoria.momement(sumatoria.getCurrent() + "," + this.dataGridView1.Rows[0].Cells[ij].Value).Split(',');
+                    sumatoria.setCurrent(temp1[0]);
+
+
+                    //Agrega Color a la Cabezilla de la maquina
+                    dataGridView1.CurrentCell = dataGridView1.Rows[0].Cells[ij];
+                    dataGridView1.CurrentCell.Style.BackColor = Color.AliceBlue;
+
+                    //Se Manejan los indicadores visuales de pasos y Estado actual.
+                    cont++;
+                    label4.Text = cont.ToString();
+                    estado = sumatoria.getCurrent();
+                    label2.Text = estado;
+                    //Se Cambia el dato en dataGridView
+                    this.dataGridView1.Rows[0].Cells[ij].Value = temp1[1];
+
+                    if (temp1[2] == "1")
+                        ij++;
+                    else
+                        ij--;
+                    if (sumatoria.itsEnd(sumatoria.getCurrent()))
+                    {
+                        ij = 0;
+                        sumatoria.setCurrent("q0");
+                        cont = 0;
+                        timer1.Enabled = false;
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("ERROR: Estado no definido revise el formato de entrada.");
+                    sumatoria.setCurrent("q0");
+                    cont = 0;
+                    timer1.Enabled = false;
+                }
+            }
+
+
+            if (radioButton2.Checked)
+            {
+                if (resta.momement(resta.getCurrent() + "," + this.dataGridView1.Rows[0].Cells[i].Value) != null)
+                {
+                    temp = resta.momement(resta.getCurrent() + "," + this.dataGridView1.Rows[0].Cells[i].Value).Split(',');
+                    resta.setCurrent(temp[0]);
+
+
+                    //Agrega Color a la Cabezilla de la maquina
+                    dataGridView1.CurrentCell = dataGridView1.Rows[0].Cells[i];
+                    dataGridView1.CurrentCell.Style.BackColor = Color.Tomato;
+
+                    //Se Manejan los indicadores visuales de pasos y Estado actual.
+                    cont++;
+                    label4.Text = cont.ToString();
+                    estado = resta.getCurrent();
+                    label2.Text = estado;
+                    //Se Cambia el dato en dataGridView
+                    this.dataGridView1.Rows[0].Cells[i].Value = temp[1];
+
+                    if (temp[2] == "1")
+                        i++;
+                    else
+                        i--;
+                    if (resta.itsEnd(resta.getCurrent()))
+                    {
+                        
+                        i = 0;
+                        resta.setCurrent("q0");
+                        cont = 0;
+                        timer1.Enabled = false;
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("ERROR: Estado no definido revise el formato de entrada.");
+                    cont = 0;
+                    resta.setCurrent("q0");
+                    timer1.Enabled = false;
+                }
+            }
+
+
+            if (radioButton3.Checked)
+            {
+                if (multiplicacion.momement(multiplicacion.getCurrent() + "," + this.dataGridView1.Rows[0].Cells[i].Value) != null)
+                {
+                    temp = multiplicacion.momement(multiplicacion.getCurrent() + "," + this.dataGridView1.Rows[0].Cells[i].Value).Split(',');
+                    multiplicacion.setCurrent(temp[0]);
+
+
+                    //Agrega Color a la Cabezilla de la maquina
+                    dataGridView1.CurrentCell = dataGridView1.Rows[0].Cells[i];
+                    dataGridView1.CurrentCell.Style.BackColor = Color.Tomato;
+
+                    //Se Manejan los indicadores visuales de pasos y Estado actual.
+                    cont++;
+                    label4.Text = cont.ToString();
+                    estado = multiplicacion.getCurrent();
+                    label2.Text = estado;
+                    //Se Cambia el dato en dataGridView
+                    this.dataGridView1.Rows[0].Cells[i].Value = temp[1];
+
+                    if (temp[2] == "1")
+                        i++;
+                    else
+                        i--;
+                    if (multiplicacion.itsEnd(multiplicacion.getCurrent()))
+                    {
+
+                        i = 0;
+                        multiplicacion.setCurrent("q0");
+                        cont = 0;
+                        timer1.Enabled = false;
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("ERROR: Estado no definido revise el formato de entrada.");
+                    cont = 0;
+                    multiplicacion.setCurrent("q0");
+                    timer1.Enabled = false;
+                }
+            }
+
+
+            if (radioButton4.Checked)
+            {
+                if (palindromo.momement(palindromo.getCurrent() + "," + this.dataGridView1.Rows[0].Cells[i].Value) != null)
+                {
+                    temp = palindromo.momement(palindromo.getCurrent() + "," + this.dataGridView1.Rows[0].Cells[i].Value).Split(',');
+                    palindromo.setCurrent(temp[0]);
+
+
+                    //Agrega Color a la Cabezilla de la maquina
+                    dataGridView1.CurrentCell = dataGridView1.Rows[0].Cells[i];
+                    dataGridView1.CurrentCell.Style.BackColor = Color.Tomato;
+
+                    //Se Manejan los indicadores visuales de pasos y Estado actual.
+                    cont++;
+                    label4.Text = cont.ToString();
+                    estado = palindromo.getCurrent();
+                    label2.Text = estado;
+                    //Se Cambia el dato en dataGridView
+                    this.dataGridView1.Rows[0].Cells[i].Value = temp[1];
+
+                    if (temp[2] == "1")
+                        i++;
+                    else
+                        i--;
+                    if (palindromo.itsEnd(palindromo.getCurrent()))
+                    {
+
+                        i = 0;
+                        palindromo.setCurrent("q0");
+                        cont = 0;
+                        timer1.Enabled = false;
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("ERROR: Estado no definido revise el formato de entrada.");
+                    cont = 0;
+                    palindromo.setCurrent("q0");
+                    timer1.Enabled = false;
+                }
+            }
+
+            if (radioButton5.Checked)
+            {
+                if (copiaSTR.momement(copiaSTR.getCurrent() + "," + this.dataGridView1.Rows[0].Cells[i].Value) != null)
+                {
+                    temp = copiaSTR.momement(copiaSTR.getCurrent() + "," + this.dataGridView1.Rows[0].Cells[i].Value).Split(',');
+                    copiaSTR.setCurrent(temp[0]);
+
+
+                    //Agrega Color a la Cabezilla de la maquina
+                    dataGridView1.CurrentCell = dataGridView1.Rows[0].Cells[i];
+                    dataGridView1.CurrentCell.Style.BackColor = Color.Tomato;
+
+                    //Se Manejan los indicadores visuales de pasos y Estado actual.
+                    cont++;
+                    label4.Text = cont.ToString();
+                    estado = copiaSTR.getCurrent();
+                    label2.Text = estado;
+                    //Se Cambia el dato en dataGridView
+                    this.dataGridView1.Rows[0].Cells[i].Value = temp[1];
+
+                    if (temp[2] == "1")
+                        i++;
+                    else
+                        i--;
+                    if (copiaSTR.itsEnd(copiaSTR.getCurrent()))
+                    {
+
+                        i = 0;
+                        copiaSTR.setCurrent("q0");
+                        cont = 0;
+                        timer1.Enabled = false;
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("ERROR: Estado no definido revise el formato de entrada.");
+                    cont = 0;
+                    copiaSTR.setCurrent("q0");
+                    timer1.Enabled = false;
+                }
+            }
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            timer1.Enabled = true;
         }
     }
 }
