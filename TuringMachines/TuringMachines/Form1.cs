@@ -242,6 +242,7 @@ namespace TuringMachines
             copiaSTR.addState("q7,»", "q8,»,1");
         }
 
+        //Form initializer
         public Form1()
         {
             InitializeComponent();
@@ -280,7 +281,7 @@ namespace TuringMachines
                         while (cons <= cadena.Length * 7)
                         {
                             this.dataGridView1.Columns.Add("blank" + cons, "»");
-                            this.dataGridView1.Rows[0].Cells[i + cons].Value = "»";
+                            this.dataGridView1.Rows[0].Cells[cons].Value = "»";
                             cons++;
                         }
                     }
